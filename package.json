@@ -1,0 +1,35 @@
+{
+  "name": "room-booking-express-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "migrate": "knex migrate:latest",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/longgtruong/room-booking-express-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/longgtruong/room-booking-express-api/issues"
+  },
+  "homepage": "https://github.com/longgtruong/room-booking-express-api#readme",
+  "dependencies": {
+    "@vscode/sqlite3": "^5.0.7",
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "express-handlebars": "^6.0.2",
+    "handlebars": "^4.7.7",
+    "install": "^0.13.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^1.0.1",
+    "nodemon": "^2.0.15",
+    "sequelize": "^6.13.0",
+    "sqlite3": "^5.0.2"
+  }
+}
