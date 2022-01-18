@@ -12,13 +12,17 @@ module.exports.authenticateRequired = function (req, rsp, next) {
 
 module.exports.signup = async (req, rsp) => {
     const { first_name, last_name, email, password: plaintextpassword } = req.body
-    const password = bcrypt.hashSync(plaintextpassword, 10)
-    const created_at = Date.now()
-    try {
-        const user = await db.createUser({ first_name, last_name, email, password, created_at })
-        rsp.status(200).json(user)
-    } catch (err) {
-        rsp.send(err)
+    if (!plaintextpassword || !first_name || !last_name || !email) {
+        rsp.status(500).json({ errors: { message: "Must fill in all required fields" } })
+    } else {
+        const password = bcrypt.hashSync(plaintextpassword, 10)
+        const created_at = Date.now()
+        try {
+            const user = await db.createUser({ first_name, last_name, email, password, created_at })
+            rsp.status(200).json(user)
+        } catch (err) {
+            rsp.send(err)
+        }
     }
 }
 
@@ -35,7 +39,7 @@ module.exports.login = async (req, rsp) => {
                     const token = jwt.sign({ id: user.id, email: user.email, first_name: user.first_name, last_name: user.last_name }, "ROOM_RESERVATION_REST_API")
                     rsp.status(200).json({ status: "Success", token })
                 } else {
-                    rsp.json({ errors: { message: "Wrong password" } })
+                    rsp.status(500).json({ errors: { message: "Wrong password" } })
                 }
             })
         }
