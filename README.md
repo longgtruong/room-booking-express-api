@@ -9,7 +9,7 @@ To get started with this project, use the following commands:
 ```bash
 yarn install
 yarn migrate
-yarn seed // inserting some hard-coded rooms to the system
+yarn seed # inserting some hard-coded rooms to the system
 yarn start
 ```
 
@@ -35,7 +35,8 @@ yarn knex migrate:rollback
 ## Creating new seeds
 
 ```bash
-npx knex seeds:make create_tables
+npx knex seeds:make 001-rooms
+# use number to indicate which seeds to run first
 ```
 
 Have a look at `/seeds` for inspiration. Then run:
