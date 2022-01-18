@@ -11,7 +11,7 @@ module.exports.reserveRoom = async (req, rsp) => {
                 const reservation = await db.reserveRoom(user_id, room_id, reservation_date)
                 rsp.json(reservation)
             } else {
-                rsp.status(403).json({ errors: { message: "Room is occupied" } })
+                rsp.status(500).json({ errors: { message: "Room is occupied" } })
             }
         } else {
             rsp.status(404).send({ errors: { message: "Room does not exist" } })
@@ -29,7 +29,6 @@ module.exports.deleteReservation = async (req, rsp) => {
         if (reservation.length) {
             if (reservation[0].user_id === user_id) {
                 try {
-                    console.log(reservation)
                     db.deleteReservation(id)
                     rsp.status(200).json({ status: "Success" })
                 } catch (err) {

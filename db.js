@@ -4,7 +4,6 @@ const config = require("./knexfile")
 const db = knex(config.development)
 
 function findUserByEmail(email) {
-    console.log(email)
     return db('users').where('email', email)
 }
 
@@ -29,8 +28,8 @@ async function getRoomList(from, until) {
     ON rooms.id = reservations.room_id
     LEFT JOIN users
     ON users.id = reservations.user_id
-    WHERE (reservation_date > ?
-    AND reservation_date < ?)
+    WHERE (reservation_date >= ?
+    AND reservation_date <= ?)
     OR reservation_date is NULL
     `, [from, until])
     rooms.map((room)=>{

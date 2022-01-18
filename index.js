@@ -14,10 +14,6 @@ app.use("/users", userRoute)
 app.use("/rooms", roomRoute)
 app.use("/reservations", reservationRoute)
 
-app.get("/", (req, res) => {
-    res.send("test")
-})
-
 app.listen(8081, () => {
     console.log("Listening at http://localhost:8081")
 })

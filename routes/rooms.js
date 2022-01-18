@@ -14,7 +14,6 @@ router.get("/:date", async (req, rsp) => {
 
 router.get("/", authenticateRequired, async (req, rsp) => {
     try {
-        console.log(req.query.from, req.query.until)
         const rooms = await db.getRoomList(req.query.from, req.query.until)
         rsp.json(rooms)
     } catch (err) {
