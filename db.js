@@ -16,8 +16,29 @@ function updateUser(user, email) {
     return db('users').where('email', email).update(user)
 }
 
-function getRooms(date) {
-    return db.raw("SELECT * FROM rooms LEFT JOIN resevations ON rooms.id = resevations.room_id WHERE reservation_date is not ?", [date])
+async function getRooms(date) {
+    const occupiedRooms = await db.raw("SELECT rooms.id FROM rooms LEFT JOIN reservations ON rooms.id = reservations.room_id WHERE reservation_date = ?", [date])
+    const ids = occupiedRooms.map((el) => el.id)
+    const allRooms = await db('rooms')
+    return allRooms.filter((room) => !ids.includes(room.id))
+}
+
+async function getRoomList(from, until) {
+    const rooms = await db.raw(`SELECT rooms.id, rooms.number, rooms.description, users.first_name as occupied_by, reservations.reservation_date FROM rooms 
+    LEFT JOIN reservations
+    ON rooms.id = reservations.room_id
+    LEFT JOIN users
+    ON users.id = reservations.user_id
+    WHERE (reservation_date > ?
+    AND reservation_date < ?)
+    OR reservation_date is NULL
+    `, [from, until])
+    rooms.map((room)=>{
+        if (room.reservation_date == null) {
+            delete room.reservation_date
+        }
+    })
+    return rooms;
 }
 
 async function isRoomAvailable(room_id, reservation_date) {
@@ -56,5 +77,6 @@ module.exports = {
     isRoomAvailable,
     getReservation,
     deleteReservation,
-    getUserReservation
+    getUserReservation,
+    getRoomList
 }
